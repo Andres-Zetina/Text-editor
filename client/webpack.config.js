@@ -19,8 +19,8 @@ module.exports = () => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './src/index.html',
-        filename: 'index.html',
+        template: './index.html',
+        title: 'Text Editor',
       }),
       new HtmlWebpackPlugin({
         template: './src/install.html',
@@ -33,6 +33,8 @@ module.exports = () => {
         description: 'Text Editor PWA',
         background_color: '#ffffff',
         theme_color: '#ffffff',
+        start_url:'./',
+        publicPath: './',
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
@@ -42,8 +44,8 @@ module.exports = () => {
         ]
       }),
       new InjectManifest({
-        swSrc: './src/sw.js',
-        swDest: 'sw.js'
+        swSrc: './src-sw.js',
+        swDest: 'src-sw.js'
       })
     ],
 
@@ -54,12 +56,15 @@ module.exports = () => {
           use: ['style-loader', 'css-loader']
         },
         {
-          test: /\.js$/,
+          test: /\.m?js$/,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
             options: {
-              presets: ['@babel/preset-env']
+              presets: ['@babel/preset-env'],
+              plugins: [
+                "@babel/plugin-proposal-object-rest-spread",
+                "@babel/transform-runtime",]
             }
           }
         }
